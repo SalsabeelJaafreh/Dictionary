@@ -56,19 +56,32 @@ class App extends Component {
   }
 
 
-  sentData(word) {
+// //   sentData(word) {
+// //     $.ajax({
+// //       type:'GET',
+// //      url: 'https://www.google.co.in/search?hl=en&q=define+hello',
+// //      dataType: 'json',
+// //       success: function(data) {
+// //       console.log(data);
+// //   }
+// // });
+//      }
+
+
+
+  sendData(word) {
     $.ajax({
       type: 'POST',
-      url: '/difinition',
+      url: '/definition',
       data: {
-        word: `${this.state.word}`
+        word:word,
       },
       //when success do this
       success: function(res) {
         alert(res);
       },
       error: function(res) {
-        alert('Failed sent this data please try agian');
+        alert('Failed send this data please try agian');
       }
     });
   }
@@ -82,7 +95,7 @@ render() {
               <input style={input} onChange={this.onWrite.bind(this)} />
                <br/>
                <br/>
-               <Button style={button} onClick={this.sentData.bind(this)}>Defintion</Button>
+               <Button style={button} onClick={() => this.sendData(this.state.word)}>Defintion</Button>
 
               
               </div>
