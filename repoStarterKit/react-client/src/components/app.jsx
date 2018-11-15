@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import $ from 'jquery';
 import { browserHistory } from 'react-router';
-import axios from 'axios';
-import Button from '@material-ui/core/Button';
+ import Button from '@material-ui/core/Button';
 
 const input={
    width:'100%',
@@ -27,34 +26,39 @@ const button = {
   fontFamily: 'Lobster'
 };  
 const appname={
-  color: '#1a2d63',
+  color: 'black',
   fontWeight: 'bold',
    textAlign: 'center',
   fontSize: '50px',
   fontFamily: 'Lobster',
   marginTop: '2px'
 };
+const dif={
+ color: 'black',
+  fontWeight: 'bold',
+   textAlign: 'center',
+  fontSize: '20px',
+  fontFamily: 'Lobster',
+  marginTop: '2px'
+
+
+}
 
 
 class App extends Component {
 
   constructor(props) {
-    super(props)
-
-    this.state = {
-      word: '',
-      data: [],
-    }
+    super();
+  this.state = {
+    word:'',
+    meaning:''
   }
+}
 
-  onWrite(e) {
-    this.setState({
-    [e.target.name]: e.target.value
-     
-    });
-     console.log(e.target.value)
-  }
-
+   onWrite(e) {
+  {this.setState({word:e.target.value}) }
+  
+}
 
 // //   sentData(word) {
 // //     $.ajax({
@@ -69,35 +73,59 @@ class App extends Component {
 
 
 
-  sendData(word) {
-    $.ajax({
-      type: 'POST',
-      url: '/definition',
-      data: {
-        word:word,
-      },
-      //when success do this
-      success: function(res) {
-        alert(res);
-      },
-      error: function(res) {
-        alert('Failed send this data please try agian');
-      }
-    });
-  }
+  // sendData(word) {
+  //   console.log("salsabeel")
+  //   $.ajax({
+  //     type: 'POST',
+  //     url: '/definition',
+  //      data: JSON.stringify({ word: word }),
+  //      dataType: "json",
+  //     //when success do this
+  //     success: function(res) {
+  //       console.log(res)
+       
+  //     },
+  //     error: function(res) {
+  //       alert('Failed send this data please try agian');
+  //     }
+  //   });
+  // }
+
+
+getmeaning(){
+ $.ajax({
+    method: 'GET',
+    url: `/definition/${this.state.word}`,
+    success:  (data) => {
+      // alert(data)
+      console.log('testing')
+      this.setState({meaning: data});
+
+    }
+ })
+
+}
+
+
 
 render() {
     return (
       <div>
+       
       <h1 style={appname} >Salsabeel Dictionary</h1>
               <h3 style={appname}> Enter word OR text:</h3>
+               
+              <input style={input} value={this.state.word} onChange={(e)=> {this.setState({word:e.target.value}) } }/>
+            
               
-              <input style={input} onChange={this.onWrite.bind(this)} />
-               <br/>
-               <br/>
-               <Button style={button} onClick={() => this.sendData(this.state.word)}>Defintion</Button>
+              <br />
+              
+               <button  style={button}onClick= {() => {this.getmeaning()}}>Definition</button>
+               <h4 style={dif}>the Difinition is :{this.state.meaning}</h4>
+               <div>
 
-              
+               </div>
+             
               </div>
     );
   }
